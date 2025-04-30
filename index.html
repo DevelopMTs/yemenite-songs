@@ -69,15 +69,9 @@
         
         .recording-item {
             display: flex;
-            flex-direction: column;
+            align-items: center;
             padding: 10px 0;
             border-bottom: 1px dashed #eee;
-        }
-        
-        .recording-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
         }
         
         .play-button {
@@ -111,67 +105,6 @@
             flex-grow: 1;
         }
         
-        .audio-controls {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin-top: 5px;
-            margin-right: 55px;
-            margin-bottom: 5px;
-        }
-        
-        .time-display {
-            font-size: 0.8rem;
-            color: #795548;
-            margin: 0 10px;
-            min-width: 40px;
-            text-align: center;
-        }
-        
-        .seek-bar {
-            flex-grow: 1;
-            height: 5px;
-            background-color: #e0e0e0;
-            border-radius: 2px;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .seek-bar-fill {
-            position: absolute;
-            height: 100%;
-            background-color: #8d6e63;
-            border-radius: 2px;
-            pointer-events: none;
-        }
-        
-        .control-buttons {
-            display: flex;
-            align-items: center;
-            margin-right: 55px;
-        }
-        
-        .control-button {
-            background: none;
-            border: none;
-            color: #8d6e63;
-            cursor: pointer;
-            padding: 5px;
-            margin: 0 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: color 0.2s;
-        }
-        
-        .control-button:hover {
-            color: #4e342e;
-        }
-        
-        .control-button i {
-            font-size: 16px;
-        }
-        
         .loop-toggle {
             display: flex;
             align-items: center;
@@ -191,6 +124,87 @@
             color: #795548;
         }
         
+        /* Player Controls */
+        .player-controls {
+            display: none;
+            flex-direction: column;
+            background-color: #f5f5f5;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #795548;
+            margin-bottom: 5px;
+        }
+        
+        .progress-container {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        
+        .seek-slider {
+            flex-grow: 1;
+            height: 5px;
+            -webkit-appearance: none;
+            background-color: #d7ccc8;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        .seek-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #5d4037;
+            cursor: pointer;
+        }
+        
+        .seek-slider::-moz-range-thumb {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #5d4037;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .seek-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .control-button {
+            background-color: #a1887f;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .control-button:hover {
+            background-color: #8d6e63;
+        }
+        
+        .control-button i {
+            margin: 0 5px;
+        }
+        
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .songs-container {
@@ -200,6 +214,10 @@
             body {
                 padding: 15px;
             }
+            
+            .seek-controls {
+                flex-wrap: wrap;
+            }
         }
     </style>
     <!-- Font Awesome for icons -->
@@ -207,7 +225,7 @@
 </head>
 <body>
     <header>
-        <h1>1לימוד שירת תימן 🎶</h1>
+        <h1>לימוד שירת תימן 🎶</h1>
         <p class="description">
             אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
             כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
@@ -318,84 +336,8 @@
         // האודיו שמתנגן כרגע
         let currentAudio = null;
         let currentButton = null;
-        let currentItem = null;
-        let currentSeekBar = null;
-        let currentSeekBarFill = null;
-        let currentTimeDisplay = null;
-        let totalTimeDisplay = null;
-        let updateTimer = null;
-
-        // פונקציה להמרת שניות לתצוגת זמן
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-        }
-
-        // פונקציה לעדכון סרגל החיפוש ותצוגת הזמן
-        function updateSeekBar() {
-            if (!currentAudio || !currentSeekBarFill || !currentTimeDisplay) return;
-            
-            // עדכון תצוגת הזמן הנוכחי
-            currentTimeDisplay.textContent = formatTime(currentAudio.currentTime);
-            
-            // עדכון מילוי סרגל החיפוש
-            const percentage = (currentAudio.currentTime / currentAudio.duration) * 100;
-            currentSeekBarFill.style.width = percentage + '%';
-        }
-
-        // פונקציה להגדרת אירועי השליטה באודיו
-        function setupAudioControls() {
-            if (!currentItem || !currentAudio) return;
-            
-            // הגדרת אירועים לסרגל החיפוש
-            if (currentSeekBar) {
-                currentSeekBar.addEventListener('click', function(e) {
-                    if (!currentAudio || !currentAudio.duration) return;
-                    
-                    const rect = currentSeekBar.getBoundingClientRect();
-                    const pos = (e.clientX - rect.left) / rect.width;
-                    currentAudio.currentTime = pos * currentAudio.duration;
-                    updateSeekBar();
-                });
-            }
-            
-            // הגדרת אירועים לכפתורי הניווט
-            const rewindButton = currentItem.querySelector('.rewind-button');
-            const forwardButton = currentItem.querySelector('.forward-button');
-            
-            if (rewindButton) {
-                rewindButton.addEventListener('click', function(e) {
-                    e.stopPropagation(); // מניעת התפשטות האירוע
-                    if (!currentAudio) return;
-                    currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
-                    updateSeekBar();
-                });
-            }
-            
-            if (forwardButton) {
-                forwardButton.addEventListener('click', function(e) {
-                    e.stopPropagation(); // מניעת התפשטות האירוע
-                    if (!currentAudio) return;
-                    currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
-                    updateSeekBar();
-                });
-            }
-            
-            // אירועים לאודיו
-            currentAudio.addEventListener('loadedmetadata', function() {
-                if (totalTimeDisplay) {
-                    totalTimeDisplay.textContent = formatTime(currentAudio.duration);
-                }
-                
-                // התחלת טיימר לעדכון מצב הניגון
-                if (updateTimer) clearInterval(updateTimer);
-                updateTimer = setInterval(updateSeekBar, 100); // עדכון תכוף יותר לחוויה טובה יותר
-                
-                // עדכון ראשוני של הסליידר
-                updateSeekBar();
-            });
-        }
+        let currentPlayerControls = null;
+        let seekInterval = null;
 
         // פונקציה ליצירת כרטיסי השירים
         function renderSongs(songs) {
@@ -416,10 +358,6 @@
                 song.recordings.forEach(recording => {
                     const recordingItem = document.createElement('li');
                     recordingItem.className = 'recording-item';
-                    
-                    // יצירת החלק העליון עם שם ההקלטה וכפתור הניגון
-                    const recordingHeader = document.createElement('div');
-                    recordingHeader.className = 'recording-header';
 
                     const playButton = document.createElement('button');
                     playButton.className = 'play-button';
@@ -436,64 +374,88 @@
                     playButton.addEventListener('click', function() {
                         togglePlayback(this, recording.url);
                     });
+
+                    recordingItem.appendChild(playButton);
+                    recordingItem.appendChild(recordingName);
+                    recordingsList.appendChild(recordingItem);
                     
-                    recordingHeader.appendChild(playButton);
-                    recordingHeader.appendChild(recordingName);
-                    recordingItem.appendChild(recordingHeader);
+                    // יצירת פקדי הנגן
+                    const playerControls = document.createElement('div');
+                    playerControls.className = 'player-controls';
+                    playerControls.id = 'player-' + song.title.replace(/\s+/g, '-') + '-' + recording.name.replace(/\s+/g, '-');
                     
-                    // יצירת אזור הפקדים לשליטה בהקלטה
-                    const audioControls = document.createElement('div');
-                    audioControls.className = 'audio-controls';
-                    audioControls.style.display = 'none'; // מוסתר בהתחלה
+                    // תצוגת זמן
+                    const timeDisplay = document.createElement('div');
+                    timeDisplay.className = 'time-display';
                     
-                    // הצגת זמן נוכחי
                     const currentTime = document.createElement('span');
-                    currentTime.className = 'time-display current-time';
+                    currentTime.className = 'current-time';
                     currentTime.textContent = '0:00';
                     
-                    // סליידר לגלילה בשיר
-                    const seekBar = document.createElement('div');
-                    seekBar.className = 'seek-bar';
-                    seekBar.setAttribute('data-url', recording.url);
+                    const duration = document.createElement('span');
+                    duration.className = 'duration';
+                    duration.textContent = '0:00';
                     
-                    const seekBarFill = document.createElement('div');
-                    seekBarFill.className = 'seek-bar-fill';
-                    seekBar.appendChild(seekBarFill);
+                    timeDisplay.appendChild(currentTime);
+                    timeDisplay.appendChild(duration);
                     
-                    // הצגת זמן כולל
-                    const totalTime = document.createElement('span');
-                    totalTime.className = 'time-display total-time';
-                    totalTime.textContent = '0:00';
+                    // סליידר התקדמות
+                    const progressContainer = document.createElement('div');
+                    progressContainer.className = 'progress-container';
                     
-                    audioControls.appendChild(currentTime);
-                    audioControls.appendChild(seekBar);
-                    audioControls.appendChild(totalTime);
+                    const seekSlider = document.createElement('input');
+                    seekSlider.type = 'range';
+                    seekSlider.className = 'seek-slider';
+                    seekSlider.min = 0;
+                    seekSlider.max = 100;
+                    seekSlider.value = 0;
                     
-                    // כפתורי שליטה נוספים
-                    const controlButtons = document.createElement('div');
-                    controlButtons.className = 'control-buttons';
-                    controlButtons.style.display = 'none'; // מוסתר בהתחלה
+                    progressContainer.appendChild(seekSlider);
                     
-                    // כפתור חזרה 10 שניות אחורה
-                    const rewindButton = document.createElement('button');
-                    rewindButton.className = 'control-button rewind-button';
-                    rewindButton.innerHTML = '<i class="fas fa-backward"></i>';
-                    rewindButton.setAttribute('title', 'חזור 10 שניות אחורה');
+                    // כפתורי שליטה
+                    const seekControls = document.createElement('div');
+                    seekControls.className = 'seek-controls';
                     
-                    // כפתור קדימה 10 שניות
+                    const backButton = document.createElement('button');
+                    backButton.className = 'control-button back-10';
+                    backButton.innerHTML = '<i class="fas fa-backward"></i> 10 שניות';
+                    backButton.title = 'חזור 10 שניות';
+                    
                     const forwardButton = document.createElement('button');
-                    forwardButton.className = 'control-button forward-button';
-                    forwardButton.innerHTML = '<i class="fas fa-forward"></i>';
-                    forwardButton.setAttribute('title', 'קפוץ 10 שניות קדימה');
+                    forwardButton.className = 'control-button forward-10';
+                    forwardButton.innerHTML = '10 שניות <i class="fas fa-forward"></i>';
+                    forwardButton.title = 'קדימה 10 שניות';
                     
-                    controlButtons.appendChild(rewindButton);
-                    controlButtons.appendChild(forwardButton);
+                    seekControls.appendChild(backButton);
+                    seekControls.appendChild(forwardButton);
                     
-                    recordingItem.appendChild(audioControls);
-                    recordingItem.appendChild(controlButtons);
+                    // הוספת כל הפקדים לקונטיינר הנגן
+                    playerControls.appendChild(timeDisplay);
+                    playerControls.appendChild(progressContainer);
+                    playerControls.appendChild(seekControls);
                     
-                    // הוספת הפריט לרשימה
-                    recordingsList.appendChild(recordingItem);
+                    // הוספת אירועים לפקדי הנגן
+                    seekSlider.addEventListener('input', function() {
+                        if (currentAudio) {
+                            const seekTime = currentAudio.duration * (this.value / 100);
+                            currentAudio.currentTime = seekTime;
+                        }
+                    });
+                    
+                    backButton.addEventListener('click', function() {
+                        if (currentAudio) {
+                            currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
+                        }
+                    });
+                    
+                    forwardButton.addEventListener('click', function() {
+                        if (currentAudio) {
+                            currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
+                        }
+                    });
+                    
+                    // הוספת פקדי הנגן לאחר הפריט
+                    recordingItem.appendChild(playerControls);
                 });
 
                 // יצירת חלק הלולאה
@@ -519,6 +481,13 @@
             });
         }
 
+        // פונקציה לפורמט זמן (שניות למבנה 0:00)
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
+
         // פונקציה לניהול נגינת האודיו
         function togglePlayback(button, url) {
             // אם יש אודיו שמתנגן, נעצור אותו
@@ -531,26 +500,68 @@
                     currentButton.classList.remove('playing');
                 }
                 
-                // הסתרת פקדי האודיו הקודמים
-                if (currentItem) {
-                    const prevAudioControls = currentItem.querySelector('.audio-controls');
-                    const prevControlButtons = currentItem.querySelector('.control-buttons');
-                    if (prevAudioControls) prevAudioControls.style.display = 'none';
-                    if (prevControlButtons) prevControlButtons.style.display = 'none';
+                // הסתרת פקדי הנגן הקודמים
+                if (currentPlayerControls) {
+                    currentPlayerControls.style.display = 'none';
                 }
                 
-                // עצירת הטיימר לעדכון מצב הניגון
-                if (updateTimer) {
-                    clearInterval(updateTimer);
-                    updateTimer = null;
+                // ניקוי אינטרוול עדכון הסליידר
+                if (seekInterval) {
+                    clearInterval(seekInterval);
+                    seekInterval = null;
                 }
                 
                 // אם לחצנו על אותו כפתור, נעצור את הניגון ונצא
                 if (currentButton === button) {
                     currentAudio = null;
                     currentButton = null;
-                    currentItem = null;
-                    currentSeekBar = null;
-                    currentSeekBarFill = null;
-                    currentTimeDisplay = null;
-                    totalTimeDisplay = nu
+                    currentPlayerControls = null;
+                    return;
+                }
+            }
+            
+            // מציאת אלמנט פקדי הנגן הקשור לכפתור זה
+            const recordingItem = button.closest('.recording-item');
+            const playerControls = recordingItem.querySelector('.player-controls');
+            
+            // הפעלת האודיו החדש
+            currentAudio = new Audio(url);
+            currentButton = button;
+            currentPlayerControls = playerControls;
+            
+            // שינוי כפתור הניגון למצב מושהה
+            button.innerHTML = '<i class="fas fa-pause"></i>';
+            button.classList.add('playing');
+            
+            // הצגת פקדי הנגן
+            playerControls.style.display = 'flex';
+            
+            // בדיקה אם הלולאה פעילה
+            const songCard = button.closest('.song-card');
+            const loopCheckbox = songCard.querySelector('input[type="checkbox"]');
+            
+            if (loopCheckbox && loopCheckbox.checked) {
+                currentAudio.loop = true;
+            }
+            
+            // הגדרת אירועים לאודיו
+            currentAudio.addEventListener('loadedmetadata', function() {
+                // עדכון משך הזמן המלא של השיר
+                const durationElem = playerControls.querySelector('.duration');
+                durationElem.textContent = formatTime(currentAudio.duration);
+                
+                // התחלת אינטרוול לעדכון הסליידר והזמן הנוכחי
+                seekInterval = setInterval(updateSeekBar, 1000);
+            });
+            
+            // אירוע כאשר האודיו מסתיים
+            currentAudio.addEventListener('ended', function() {
+                if (!currentAudio.loop) {
+                    button.innerHTML = '<i class="fas fa-play"></i>';
+                    button.classList.remove('playing');
+                    
+                    clearInterval(seekInterval);
+                    seekInterval = null;
+                    
+                    currentAudio = null;
+                    currentButton = null;
