@@ -69,9 +69,15 @@
         
         .recording-item {
             display: flex;
-            align-items: center;
+            flex-direction: column;
             padding: 10px 0;
             border-bottom: 1px dashed #eee;
+        }
+        
+        .recording-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
         }
         
         .play-button {
@@ -103,6 +109,67 @@
         
         .recording-name {
             flex-grow: 1;
+        }
+        
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            margin-top: 5px;
+            margin-right: 55px;
+            margin-bottom: 5px;
+        }
+        
+        .time-display {
+            font-size: 0.8rem;
+            color: #795548;
+            margin: 0 10px;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .seek-bar {
+            flex-grow: 1;
+            height: 5px;
+            background-color: #e0e0e0;
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .seek-bar-fill {
+            position: absolute;
+            height: 100%;
+            background-color: #8d6e63;
+            border-radius: 2px;
+            pointer-events: none;
+        }
+        
+        .control-buttons {
+            display: flex;
+            align-items: center;
+            margin-right: 55px;
+        }
+        
+        .control-button {
+            background: none;
+            border: none;
+            color: #8d6e63;
+            cursor: pointer;
+            padding: 5px;
+            margin: 0 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+        
+        .control-button:hover {
+            color: #4e342e;
+        }
+        
+        .control-button i {
+            font-size: 16px;
         }
         
         .loop-toggle {
@@ -251,6 +318,19 @@
         // האודיו שמתנגן כרגע
         let currentAudio = null;
         let currentButton = null;
+        let currentItem = null;
+        let currentSeekBar = null;
+        let currentSeekBarFill = null;
+        let currentTimeDisplay = null;
+        let totalTimeDisplay = null;
+        let updateTimer = null;
+
+        // פונקציה להמרת שניות לתצוגת זמן
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = Math.floor(seconds % 60);
+            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        }
 
         // פונקציה ליצירת כרטיסי השירים
         function renderSongs(songs) {
@@ -271,6 +351,10 @@
                 song.recordings.forEach(recording => {
                     const recordingItem = document.createElement('li');
                     recordingItem.className = 'recording-item';
+                    
+                    // יצירת החלק העליון עם שם ההקלטה וכפתור הניגון
+                    const recordingHeader = document.createElement('div');
+                    recordingHeader.className = 'recording-header';
 
                     const playButton = document.createElement('button');
                     playButton.className = 'play-button';
@@ -287,9 +371,62 @@
                     playButton.addEventListener('click', function() {
                         togglePlayback(this, recording.url);
                     });
-
-                    recordingItem.appendChild(playButton);
-                    recordingItem.appendChild(recordingName);
+                    
+                    recordingHeader.appendChild(playButton);
+                    recordingHeader.appendChild(recordingName);
+                    recordingItem.appendChild(recordingHeader);
+                    
+                    // יצירת אזור הפקדים לשליטה בהקלטה
+                    const audioControls = document.createElement('div');
+                    audioControls.className = 'audio-controls';
+                    audioControls.style.display = 'none'; // מוסתר בהתחלה
+                    
+                    // הצגת זמן נוכחי
+                    const currentTime = document.createElement('span');
+                    currentTime.className = 'time-display current-time';
+                    currentTime.textContent = '0:00';
+                    
+                    // סליידר לגלילה בשיר
+                    const seekBar = document.createElement('div');
+                    seekBar.className = 'seek-bar';
+                    seekBar.setAttribute('data-url', recording.url);
+                    
+                    const seekBarFill = document.createElement('div');
+                    seekBarFill.className = 'seek-bar-fill';
+                    seekBar.appendChild(seekBarFill);
+                    
+                    // הצגת זמן כולל
+                    const totalTime = document.createElement('span');
+                    totalTime.className = 'time-display total-time';
+                    totalTime.textContent = '0:00';
+                    
+                    audioControls.appendChild(currentTime);
+                    audioControls.appendChild(seekBar);
+                    audioControls.appendChild(totalTime);
+                    
+                    // כפתורי שליטה נוספים
+                    const controlButtons = document.createElement('div');
+                    controlButtons.className = 'control-buttons';
+                    
+                    // כפתור חזרה 10 שניות אחורה
+                    const rewindButton = document.createElement('button');
+                    rewindButton.className = 'control-button rewind-button';
+                    rewindButton.innerHTML = '<i class="fas fa-backward"></i>';
+                    rewindButton.setAttribute('title', 'חזור 10 שניות אחורה');
+                    
+                    // כפתור קדימה 10 שניות
+                    const forwardButton = document.createElement('button');
+                    forwardButton.className = 'control-button forward-button';
+                    forwardButton.innerHTML = '<i class="fas fa-forward"></i>';
+                    forwardButton.setAttribute('title', 'קפוץ 10 שניות קדימה');
+                    
+                    controlButtons.appendChild(rewindButton);
+                    controlButtons.appendChild(forwardButton);
+                    
+                    recordingItem.appendChild(audioControls);
+                    recordingItem.appendChild(controlButtons);
+                    
+                    // הוספת הפריט לרשימה
                     recordingsList.appendChild(recordingItem);
                 });
 
