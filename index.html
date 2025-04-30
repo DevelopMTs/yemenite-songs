@@ -28,6 +28,13 @@
             margin-bottom: 10px;
         }
         
+        h2.subtitle {
+            font-size: 1.5rem;
+            color: #6d4c41;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
         .description {
             font-size: 1.1rem;
             color: #6d4c41;
@@ -98,6 +105,10 @@
             transition: transform 0.2s ease;
         }
         
+        .song-card.collapsed .song-content {
+            display: none;
+        }
+        
         .song-card:hover {
             transform: translateY(-5px);
         }
@@ -108,6 +119,47 @@
             margin-top: 0;
             padding-bottom: 10px;
             border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .song-title .icons {
+            display: flex;
+            align-items: center;
+        }
+        
+        .share-button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.2s;
+        }
+        
+        .share-button:hover {
+            background-color: #6d4c41;
+        }
+        
+        .toggle-collapse {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #8d6e63;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .song-card.collapsed .toggle-collapse {
+            transform: rotate(180deg);
         }
         
         .recordings-list {
@@ -154,16 +206,42 @@
             flex-grow: 1;
         }
         
-        .loop-toggle {
-            display: flex;
-            align-items: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #795548;
+        .audio-player {
+            width: 100%;
+            margin-top: 5px;
+            display: none;
+            margin-bottom: 15px;
         }
         
-        .loop-toggle input {
-            margin-left: 8px;
+        .audio-player.active {
+            display: block;
+        }
+        
+        .html-audio-player {
+            width: 100%;
+            border-radius: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .html-audio-player {
+                margin-right: 15px;
+                width: calc(100% - 15px);
+            }
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: #8d6e63;
+            border-radius: 5px;
+            width: 0;
+        }
+        
+        .player-time {
+            font-size: 0.8rem;
+            color: #757575;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
         }
         
         footer {
@@ -185,6 +263,44 @@
                 padding: 15px;
             }
         }
+        
+        .share-tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-text {
+            visibility: hidden;
+            width: 140px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 150%;
+            left: 50%;
+            margin-left: -70px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+        .share-tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -192,10 +308,10 @@
 <body>
     <header>
         <h1>לימוד שירת תימן 🎶</h1>
+        <h2 class="subtitle">עם הזמר אור שבח</h2>
         <p class="description">
             אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
             כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
-            <p>ההקלטות הן של הזמר <span class="artist-name">אור שבח</span></p>
         </p>
     </header>
 
@@ -312,22 +428,58 @@
             ]
         };
 
-        // האודיו שמתנגן כרגע
+        // משתנים גלובליים
         let currentAudio = null;
         let currentButton = null;
+        let currentPlayer = null;
+
+        // פונקציה ליצירת מזהה בטוח מכותרת השיר
+        function createSafeId(title) {
+            // הסרת תווים מיוחדים והחלפת רווחים בקו תחתון
+            return title.replace(/[^\u0590-\u05FF\w\s]/g, '')  // להשאיר רק אותיות עבריות, אנגליות וספרות
+                     .replace(/\s+/g, '_')                     // להחליף רווחים בקו תחתון
+                     .replace(/'/g, '')                        // להסיר גרשיים
+                     .toLowerCase();                           // להמיר לאותיות קטנות (לאותיות לטיניות)
+        }
 
         // פונקציה ליצירת כרטיסי השירים
         function renderSongs(songs) {
             const container = document.getElementById('songs-container');
             container.innerHTML = '';
 
-            songs.forEach(song => {
+            songs.forEach((song) => {
+                // יצירת מזהה בטוח מבוסס על כותרת השיר
+                const songId = createSafeId(song.title);
                 const songCard = document.createElement('div');
                 songCard.className = 'song-card';
+                songCard.id = songId;
 
-                const songTitle = document.createElement('h2');
-                songTitle.className = 'song-title';
-                songTitle.textContent = song.title;
+                const songTitleContainer = document.createElement('div');
+                songTitleContainer.className = 'song-title';
+                songTitleContainer.innerHTML = `
+                    <span>${song.title}</span>
+                    <div class="icons">
+                        <div class="share-tooltip">
+                            <button class="share-button" title="שתף שיר" onclick="shareSong('${songId}', event)">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <span class="tooltip-text">העתק קישור</span>
+                        </div>
+                        <button class="toggle-collapse" title="פתח/סגור">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                `;
+
+                // הוספת אירוע לחיצה לכותרת לפתיחה וסגירה
+                songTitleContainer.addEventListener('click', function(e) {
+                    if (!e.target.closest('.share-button')) {
+                        toggleCollapse(songCard);
+                    }
+                });
+
+                const songContent = document.createElement('div');
+                songContent.className = 'song-content';
 
                 const recordingsList = document.createElement('ul');
                 recordingsList.className = 'recordings-list';
@@ -347,87 +499,135 @@
                     recordingName.className = 'recording-name';
                     recordingName.textContent = recording.name;
 
+                    // יצירת נגן אודיו HTML מובנה
+                    const audioPlayer = document.createElement('div');
+                    audioPlayer.className = 'audio-player';
+                    audioPlayer.innerHTML = `
+                        <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                            <source src="${recording.url}" type="audio/mpeg">
+                            הדפדפן שלך לא תומך בתגית אודיו.
+                        </audio>
+                    `;
+
                     // הוספת אירוע לחיצה לכפתור
                     playButton.addEventListener('click', function() {
-                        togglePlayback(this, recording.url);
+                        togglePlayback(this, audioPlayer);
                     });
 
                     recordingItem.appendChild(playButton);
                     recordingItem.appendChild(recordingName);
                     recordingsList.appendChild(recordingItem);
+                    recordingsList.appendChild(audioPlayer);
                 });
 
-                // יצירת חלק הלולאה
-                const loopToggle = document.createElement('div');
-                loopToggle.className = 'loop-toggle';
+                songContent.appendChild(recordingsList);
                 
-                const loopCheckbox = document.createElement('input');
-                loopCheckbox.type = 'checkbox';
-                loopCheckbox.id = 'loop-' + song.title.replace(/\s+/g, '-');
-                loopCheckbox.checked = true; // ברירת מחדל: השמעה בלולאה
-                
-                const loopLabel = document.createElement('label');
-                loopLabel.htmlFor = loopCheckbox.id;
-                loopLabel.textContent = 'השמעה בלולאה';
-                
-                loopToggle.appendChild(loopCheckbox);
-                loopToggle.appendChild(loopLabel);
-
-                songCard.appendChild(songTitle);
-                songCard.appendChild(recordingsList);
-                songCard.appendChild(loopToggle);
+                songCard.appendChild(songTitleContainer);
+                songCard.appendChild(songContent);
                 container.appendChild(songCard);
             });
         }
 
-        // פונקציה לניהול נגינת האודיו
-        function togglePlayback(button, url) {
-            // אם יש אודיו שמתנגן, נעצור אותו
-            if (currentAudio) {
-                currentAudio.pause();
+        // פונקציה לשיתוף לינק לשיר
+        function shareSong(songId, event) {
+            event.stopPropagation();
+            const url = `${window.location.href.split('#')[0]}#${songId}`;
+            
+            // העתקת הקישור ללוח
+            navigator.clipboard.writeText(url).then(() => {
+                // הצגת הודעה
+                const tooltip = event.target.closest('.share-tooltip').querySelector('.tooltip-text');
+                tooltip.textContent = 'הקישור הועתק!';
                 
-                // החזרת כפתור הניגון הקודם למצב המקורי
+                // החזרת הטקסט המקורי לאחר 2 שניות
+                setTimeout(() => {
+                    tooltip.textContent = 'העתק קישור';
+                }, 2000);
+            });
+        }
+
+        // פונקציה לפתיחה וסגירה של כרטיס שיר
+        function toggleCollapse(songCard) {
+            songCard.classList.toggle('collapsed');
+        }
+
+        // פונקציה לניהול נגינת האודיו
+        function togglePlayback(button, playerElement) {
+            const audioElement = playerElement.querySelector('audio');
+            
+            // אם יש נגן פעיל
+            if (currentPlayer) {
+                // אם לחצנו על אותו כפתור
+                if (currentButton === button) {
+                    // הסתרת הנגן הקודם
+                    currentPlayer.classList.remove('active');
+                    
+                    // עוצר את המוזיקה
+                    audioElement.pause();
+                    
+                    // שינוי כפתור הניגון למצב ניגון
+                    currentButton.innerHTML = '<i class="fas fa-play"></i>';
+                    currentButton.classList.remove('playing');
+                    
+                    // איפוס המצב הנוכחי
+                    currentButton = null;
+                    currentPlayer = null;
+                    return;
+                }
+                
+                // אחרת, נחזיר את הכפתור הקודם למצב המקורי ונעצור את הניגון
                 if (currentButton) {
                     currentButton.innerHTML = '<i class="fas fa-play"></i>';
                     currentButton.classList.remove('playing');
-                }
-                
-                // אם לחצנו על אותו כפתור, נעצור את הניגון ונצא
-                if (currentButton === button) {
-                    currentAudio = null;
-                    currentButton = null;
-                    return;
+                    
+                    // עצירת האודיו הקודם
+                    const prevAudio = currentPlayer.querySelector('audio');
+                    prevAudio.pause();
+                    
+                    // הסתרת הנגן הקודם
+                    currentPlayer.classList.remove('active');
                 }
             }
             
-            // הפעלת האודיו החדש
-            currentAudio = new Audio(url);
+            // הגדרת המצב הנוכחי
             currentButton = button;
+            currentPlayer = playerElement;
             
             // שינוי כפתור הניגון למצב מושהה
             button.innerHTML = '<i class="fas fa-pause"></i>';
             button.classList.add('playing');
             
-            // בדיקה אם הלולאה פעילה
-            const songCard = button.closest('.song-card');
-            const loopCheckbox = songCard.querySelector('input[type="checkbox"]');
+            // הצגת נגן המוזיקה
+            currentPlayer.classList.add('active');
             
-            if (loopCheckbox && loopCheckbox.checked) {
-                currentAudio.loop = true;
-            }
+            // הפעלת האודיו הנוכחי
+            audioElement.play();
             
             // אירוע כאשר האודיו מסתיים
-            currentAudio.addEventListener('ended', function() {
-                if (!currentAudio.loop) {
-                    button.innerHTML = '<i class="fas fa-play"></i>';
-                    button.classList.remove('playing');
-                    currentAudio = null;
-                    currentButton = null;
-                }
+            audioElement.addEventListener('ended', function() {
+                button.innerHTML = '<i class="fas fa-play"></i>';
+                button.classList.remove('playing');
+                currentPlayer.classList.remove('active');
+                currentButton = null;
+                currentPlayer = null;
             });
-            
-            currentAudio.play();
         }
+
+        // הפניה לשיר ספציפי כאשר הדף נטען אם יש אנכור בכתובת
+        window.addEventListener('load', function() {
+            if (window.location.hash) {
+                const targetSong = document.querySelector(window.location.hash);
+                if (targetSong) {
+                    // פתיחת השיר אם הוא סגור
+                    if (targetSong.classList.contains('collapsed')) {
+                        toggleCollapse(targetSong);
+                    }
+                    
+                    // גלילה אל השיר
+                    targetSong.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
     </script>
 </body>
 </html>
