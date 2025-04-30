@@ -35,6 +35,55 @@
             margin: 0 auto;
         }
         
+        .info-section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-box {
+            background-color: #f1e8dc;
+            border-right: 5px solid #c19a6b;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        
+        .meetings {
+            background-color: #e8f4f8;
+            border-right: 5px solid #5bacbd;
+        }
+        
+        .artist-name {
+            font-weight: bold;
+            color: #5d4037;
+        }
+        
+        .whatsapp-btn {
+            display: inline-block;
+            background-color: #25D366;
+            color: white;
+            text-decoration: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        
+        .whatsapp-btn:hover {
+            background-color: #128C7E;
+            transform: translateY(-2px);
+        }
+        
+        .whatsapp-btn i {
+            margin-left: 10px;
+        }
+        
         .songs-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -122,6 +171,8 @@
             margin-top: 50px;
             font-size: 0.9rem;
             color: #795548;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
         }
         
         /* Mobile Responsiveness */
@@ -144,8 +195,21 @@
         <p class="description">
             אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
             כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
+            <p>ההקלטות הן של הזמר <span class="artist-name">אור שבח</span></p>
         </p>
     </header>
+
+    <div class="info-section">        
+        <div class="info-box meetings">
+            <p>מפגשי לימוד שירי תימן מתקיימים כל יום שלישי עם הזמר <span class="artist-name">אור שבח</span> בבית הכנסת תפארת בחורים בעיר רחובות.</p>
+       
+            <div style="text-align: center;">
+                <a href="https://chat.whatsapp.com/FrvLIa6kmM29BxoUx7aO4o" class="whatsapp-btn">
+                    <i class="fab fa-whatsapp"></i> לקבלת עדכונים הצטרפו לקבוצת הוואטסאפ שלנו
+                </a>
+            </div>
+        </div>
+    </div>
 
     <main>
         <div class="songs-container" id="songs-container">
@@ -154,7 +218,7 @@
     </main>
 
     <footer>
-        <p>© כל הזכויות שמורות | לימוד שירת תימן</p>
+        <p>© כל הזכויות שמורות | לימוד שירת תימן | צוריה מור</p>
     </footer>
 
     <script>

@@ -1,114 +1,226 @@
 {
   "songs": [
     {
+      "title": "אדון הכל",
+      "recordings": [
+        {
+          "name": "אדון הכל נעימה 1",
+          "url": "audio/אדון הכל נעימה 1.mp4"
+        },
+        {
+          "name": "אדון הכל נעימה 2",
+          "url": "audio/אדון הכל נעימה 2.mp4"
+        },
+        {
+          "name": "אדון הכל נעימה 3",
+          "url": "audio/אדון הכל נעימה 3.mp4"
+        },
+        {
+          "name": "אדון הכל נעימה 4",
+          "url": "audio/אדון הכל נעימה 4.mp4"
+        },
+        {
+          "name": "אדון הכל נעימה 5",
+          "url": "audio/אדון הכל נעימה 5.mp4"
+        }
+      ]
+    },
+    {
+      "title": "אהבת דוד",
+      "recordings": [
+        {
+          "name": "אהבת דוד",
+          "url": "audio/אהבת דוד.mp4"
+        },
+        {
+          "name": "שווקי פיך",
+          "url": "audio/אהבת דוד שווקי פיך.mp4"
+        },
+        {
+          "name": "יא מושתק",
+          "url": "audio/אהבת דוד יא מושתק.mp4"
+        },
+        
+        {
+          "name": "תמצא שם",
+          "url": "audio/אהבת דוד תמצא שם.mp4"
+        }
+      ]
+    },
+    {
+      "title": "אם אשמרה שבת",
+      "recordings": [
+        {
+          "name": "אם אשמרה שבת נעימה 1",
+          "url": "audio/אם אשמרה שבת נעימה 1.mp4"
+        },
+        {
+          "name": "אם אשמרה שבת נעימה 2",
+          "url": "audio/אם אשמרה שבת נעימה 2.mp4"
+        },
+        {
+          "name": "אם אשמרה שבת נעימה 3",
+          "url": "audio/אם אשמרה שבת נעימה 3.mp4"
+        }
+      ]
+    },
+    {
+      "title": "אם תחפצה",
+      "recordings": [
+        {
+          "name": "אם תחפצה וגלגל ואדריכל",
+          "url": "audio/אם תחפצה וגלגל ואדריכל.mp4"
+        },
+        {
+          "name": "אם תחפצה ולבש ענווה",
+          "url": "audio/אם תחפצה ולבש ענווה.mp4"
+        },
+        {
+          "name": "אם תחפצה נוכח פני סיני",
+          "url": "audio/אם תחפצה נוכח פני סיני.mp4"
+        },
+        {
+          "name": "אם תחפצה נעימה 2",
+          "url": "audio/אם תחפצה נעימה 2.mp4"
+        },
+        {
+          "name": "אם תחפצה",
+          "url": "audio/אם תחפצה.mp4"
+        }
+      ]
+    },
+    {
+      "title": "ביום שבת",
+      "recordings": [
+        {
+          "name": "ביום שבת אשבח",
+          "url": "audio/ביום שבת אשבח.mp4"
+        },
+        {
+          "name": "ביום שבת מנוחה היא לכולנו נעימה 1",
+          "url": "audio/ביום שבת מנוחה היא לכולנו נעימה 1.mp4"
+        },
+        {
+          "name": "ביום שבת שחי לאל",
+          "url": "audio/ביום שבת שחי לאל.mp4"
+        }
+      ]
+    },
+    {
+      "title": "והללויה",
+      "recordings": [
+        {
+          "name": "והללויה אהלל",
+          "url": "audio/והללויה אהלל.mp4"
+        }
+      ]
+    },
+    {
+      "title": "יום שבת",
+      "recordings": [
+        {
+          "name": "יום שבת דאמת פיה",
+          "url": "audio/יום שבת דאמת פיה.mp4"
+        },
+        {
+          "name": "יום שבת ומה נעים",
+          "url": "audio/יום שבת ומה נעים.mp4"
+        },
+        {
+          "name": "יום שבת לאלתווראת",
+          "url": "audio/יום שבת לאלתווראת.mp4"
+        },
+        {
+          "name": "יום שבת פציתי את פי לשבח נעימה 1",
+          "url": "audio/יום שבת פציתי את פי לשבח נעימה 1.mp4"
+        },
+        {
+          "name": "יום שבת פציתי את פי לשבח נעימה 2",
+          "url": "audio/יום שבת פציתי את פי לשבח נעימה 2.mp4"
+        },
+        {
+          "name": "יום שבת שווקי פיה",
+          "url": "audio/יום שבת שווקי פיה.mp4"
+        },
+        {
+          "name": "יום שבת",
+          "url": "audio/יום שבת.mp4"
+        }
+      ]
+    },
+    {
+      "title": "מנוחה היא",
+      "recordings": [
+        {
+          "name": "מנוחה היא לכולנו נעימה 2",
+          "url": "audio/מנוחה היא לכולנו נעימה 2.mp4"
+        }
+      ]
+    },
+    {
+      "title": "פסח",
+      "recordings": [
+        {
+          "name": "פסח אגיל ואשמח",
+          "url": "audio/פסח אגיל ואשמח.mp4"
+        }
+      ]
+    },
+    {
+      "title": "ראש חודש",
+      "recordings": [
+        {
+          "name": "ראש חודש שירו לאל נבוני",
+          "url": "audio/ראש חודש שירו לאל נבוני.mp4"
+        },
+        {
+          "name": "ראש חודש שער הרחמים",
+          "url": "audio/ראש חודש שער הרחמים.mp4"
+        }
+      ]
+    },
+    {
       "title": "שבת מנוחה",
       "recordings": [
         {
-          "name": "פתיחה",
-          "url": "audio/AUD-20250422-WA0024.m4a"
+          "name": "שבת מנוחה היא",
+          "url": "audio/שבת מנוחה היא.mp4"
         },
         {
-          "name": "בית ראשון",
-          "url": "audio/ahavatHadasa_verse1.mp3"
+          "name": "ליבי ביום שבת",
+          "url": "audio/שבת מנוחה לבי ביום שבת.mp4"
         },
         {
-          "name": "פזמון",
-          "url": "audio/ahavatHadasa_chorus.mp3"
+          "name": "מיום אשר",
+          "url": "audio/שבת מנוחה מיום אשר.mp4"
+        },
+        {
+          "name": "בו כולכם",
+          "url": "audio/ בו כולכם.mp4"
+        },
+        {
+          "name": "ואעדינה",
+          "url": "audio/שבת מנוחה ואעדינה.mp4"
+        },
+        {
+          "name": "יה ממכון שבתך",
+          "url": "audio/שבת מנוחה יה ממכון שבתך.mp4"
         }
       ]
     },
     {
-      "title": "אנא אלך מרוחך",
+      "title": "שלום לבוא שבת",
       "recordings": [
         {
-          "name": "פתיחה",
-          "url": "audio/anaElech_intro.mp3"
+          "name": "שלום לבוא שבת",
+          "url": "audio/שלום לבוא שבת.mp4"
         },
         {
-          "name": "בית ראשון",
-          "url": "audio/anaElech_verse1.mp3"
-        },
-        {
-          "name": "בית שני",
-          "url": "audio/anaElech_verse2.mp3"
-        }
-      ]
-    },
-    {
-      "title": "ה' מלך גאות לבש",
-      "recordings": [
-        {
-          "name": "פתיחה",
-          "url": "audio/hashem_intro.mp3"
-        },
-        {
-          "name": "חלק ראשון",
-          "url": "audio/hashem_part1.mp3"
-        },
-        {
-          "name": "חלק שני",
-          "url": "audio/hashem_part2.mp3"
-        },
-        {
-          "name": "סיום",
-          "url": "audio/hashem_ending.mp3"
-        }
-      ]
-    },
-    {
-      "title": "יום שבתון",
-      "recordings": [
-        {
-          "name": "פתיחה",
-          "url": "audio/yomShabaton_intro.mp3"
-        },
-        {
-          "name": "בית ראשון",
-          "url": "audio/yomShabaton_verse1.mp3"
-        },
-        {
-          "name": "בית שני",
-          "url": "audio/yomShabaton_verse2.mp3"
-        }
-      ]
-    },
-    {
-      "title": "אשת חיל",
-      "recordings": [
-        {
-          "name": "פתיחה",
-          "url": "audio/eshetChayil_intro.mp3"
-        },
-        {
-          "name": "חלק ראשון",
-          "url": "audio/eshetChayil_part1.mp3"
-        },
-        {
-          "name": "חלק שני",
-          "url": "audio/eshetChayil_part2.mp3"
-        }
-      ]
-    },
-    {
-      "title": "דרור יקרא",
-      "recordings": [
-        {
-          "name": "פתיחה",
-          "url": "audio/drorYikra_intro.mp3"
-        },
-        {
-          "name": "בית ראשון",
-          "url": "audio/drorYikra_verse1.mp3"
-        },
-        {
-          "name": "בית שני",
-          "url": "audio/drorYikra_verse2.mp3"
-        },
-        {
-          "name": "סיום",
-          "url": "audio/drorYikra_ending.mp3"
+          "name": "דיבר בהר סיני",
+          "url": "audio/שלום לבוא שבת דיבר בהר סיני.mp4"
         }
       ]
     }
   ]
 }
+    
