@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>לימוד שירת תימן 🎶</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #5d4037;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            color: #5d4037;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1.1rem;
+            color: #6d4c41;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .songs-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 30px;
+        }
+        
+        .song-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .song-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .song-title {
+            font-size: 1.3rem;
+            color: #4e342e;
+            margin-top: 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .recordings-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .recording-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #eee;
+        }
+        
+        .play-button {
+            background-color: #8d6e63;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .play-button:hover {
+            background-color: #6d4c41;
+        }
+        
+        .play-button.playing {
+            background-color: #4e342e;
+        }
+        
+        .play-button i {
+            font-size: 18px;
+        }
+        
+        .recording-name {
+            flex-grow: 1;
+        }
+        
+        .loop-toggle {
+            display: flex;
+            align-items: center;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #795548;
+        }
+        
+        .loop-toggle input {
+            margin-left: 8px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 0.9rem;
+            color: #795548;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .songs-container {
+                grid-template-columns: 1fr;
+            }
+            
+            body {
+                padding: 15px;
+            }
+        }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1>לימוד שירת תימן 🎶</h1>
+        <p class="description">
+            אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
+            כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
+        </p>
+    </header>
+
+    <main>
+        <div class="songs-container" id="songs-container">
+            <!-- הקטגוריות והשירים יוטענו כאן באמצעות JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <p>© כל הזכויות שמורות | לימוד שירת תימן</p>
+    </footer>
+
+    <script>
+        // טעינת קובץ הקונפיגורציה
+        fetch('songs-config.json')
+            .then(response => response.json())
+            .then(data => {
+                renderSongs(data.songs);
+            })
+            .catch(error => {
+                console.error('שגיאה בטעינת הקונפיגורציה:', error);
+                // במקרה של שגיאה, נציג נתוני דוגמה
+                renderSongs(sampleData.songs);
+            });
+
+        // נתוני דוגמה למקרה שקובץ הקונפיגורציה אינו זמין
+        const sampleData = {
+            "songs": [
+                {
+                    "title": "אהבת הדסה",
+                    "recordings": [
+                        {
+                            "name": "פתיחה - מקאם",
+                            "url": "audio/ahavatHadasa_intro.mp3"
+                        },
+                        {
+                            "name": "בית ראשון",
+                            "url": "audio/ahavatHadasa_verse1.mp3"
+                        },
+                        {
+                            "name": "פזמון",
+                            "url": "audio/ahavatHadasa_chorus.mp3"
+                        }
+                    ]
+                },
+                {
+                    "title": "אנא אלך מרוחך",
+                    "recordings": [
+                        {
+                            "name": "פתיחה",
+                            "url": "audio/anaElech_intro.mp3"
+                        },
+                        {
+                            "name": "בית ראשון",
+                            "url": "audio/anaElech_verse1.mp3"
+                        },
+                        {
+                            "name": "בית שני",
+                            "url": "audio/anaElech_verse2.mp3"
+                        }
+                    ]
+                },
+                {
+                    "title": "ה' מלך גאות לבש",
+                    "recordings": [
+                        {
+                            "name": "פתיחה",
+                            "url": "audio/hashem_intro.mp3"
+                        },
+                        {
+                            "name": "חלק ראשון",
+                            "url": "audio/hashem_part1.mp3"
+                        },
+                        {
+                            "name": "חלק שני",
+                            "url": "audio/hashem_part2.mp3"
+                        },
+                        {
+                            "name": "סיום",
+                            "url": "audio/hashem_ending.mp3"
+                        }
+                    ]
+                },
+                {
+                    "title": "יום שבתון",
+                    "recordings": [
+                        {
+                            "name": "פתיחה",
+                            "url": "audio/yomShabaton_intro.mp3"
+                        },
+                        {
+                            "name": "בית ראשון",
+                            "url": "audio/yomShabaton_verse1.mp3"
+                        },
+                        {
+                            "name": "בית שני",
+                            "url": "audio/yomShabaton_verse2.mp3"
+                        }
+                    ]
+                }
+            ]
+        };
+
+        // האודיו שמתנגן כרגע
+        let currentAudio = null;
+        let currentButton = null;
+
+        // פונקציה ליצירת כרטיסי השירים
+        function renderSongs(songs) {
+            const container = document.getElementById('songs-container');
+            container.innerHTML = '';
+
+            songs.forEach(song => {
+                const songCard = document.createElement('div');
+                songCard.className = 'song-card';
+
+                const songTitle = document.createElement('h2');
+                songTitle.className = 'song-title';
+                songTitle.textContent = song.title;
+
+                const recordingsList = document.createElement('ul');
+                recordingsList.className = 'recordings-list';
+
+                song.recordings.forEach(recording => {
+                    const recordingItem = document.createElement('li');
+                    recordingItem.className = 'recording-item';
+
+                    const playButton = document.createElement('button');
+                    playButton.className = 'play-button';
+                    playButton.innerHTML = '<i class="fas fa-play"></i>';
+                    playButton.setAttribute('data-url', recording.url);
+                    playButton.setAttribute('data-name', recording.name);
+                    playButton.setAttribute('title', 'נגן ' + recording.name);
+
+                    const recordingName = document.createElement('span');
+                    recordingName.className = 'recording-name';
+                    recordingName.textContent = recording.name;
+
+                    // הוספת אירוע לחיצה לכפתור
+                    playButton.addEventListener('click', function() {
+                        togglePlayback(this, recording.url);
+                    });
+
+                    recordingItem.appendChild(playButton);
+                    recordingItem.appendChild(recordingName);
+                    recordingsList.appendChild(recordingItem);
+                });
+
+                // יצירת חלק הלולאה
+                const loopToggle = document.createElement('div');
+                loopToggle.className = 'loop-toggle';
+                
+                const loopCheckbox = document.createElement('input');
+                loopCheckbox.type = 'checkbox';
+                loopCheckbox.id = 'loop-' + song.title.replace(/\s+/g, '-');
+                loopCheckbox.checked = true; // ברירת מחדל: השמעה בלולאה
+                
+                const loopLabel = document.createElement('label');
+                loopLabel.htmlFor = loopCheckbox.id;
+                loopLabel.textContent = 'השמעה בלולאה';
+                
+                loopToggle.appendChild(loopCheckbox);
+                loopToggle.appendChild(loopLabel);
+
+                songCard.appendChild(songTitle);
+                songCard.appendChild(recordingsList);
+                songCard.appendChild(loopToggle);
+                container.appendChild(songCard);
+            });
+        }
+
+        // פונקציה לניהול נגינת האודיו
+        function togglePlayback(button, url) {
+            // אם יש אודיו שמתנגן, נעצור אותו
+            if (currentAudio) {
+                currentAudio.pause();
+                
+                // החזרת כפתור הניגון הקודם למצב המקורי
+                if (currentButton) {
+                    currentButton.innerHTML = '<i class="fas fa-play"></i>';
+                    currentButton.classList.remove('playing');
+                }
+                
+                // אם לחצנו על אותו כפתור, נעצור את הניגון ונצא
+                if (currentButton === button) {
+                    currentAudio = null;
+                    currentButton = null;
+                    return;
+                }
+            }
+            
+            // הפעלת האודיו החדש
+            currentAudio = new Audio(url);
+            currentButton = button;
+            
+            // שינוי כפתור הניגון למצב מושהה
+            button.innerHTML = '<i class="fas fa-pause"></i>';
+            button.classList.add('playing');
+            
+            // בדיקה אם הלולאה פעילה
+            const songCard = button.closest('.song-card');
+            const loopCheckbox = songCard.querySelector('input[type="checkbox"]');
+            
+            if (loopCheckbox && loopCheckbox.checked) {
+                currentAudio.loop = true;
+            }
+            
+            // אירוע כאשר האודיו מסתיים
+            currentAudio.addEventListener('ended', function() {
+                if (!currentAudio.loop) {
+                    button.innerHTML = '<i class="fas fa-play"></i>';
+                    button.classList.remove('playing');
+                    currentAudio = null;
+                    currentButton = null;
+                }
+            });
+            
+            currentAudio.play();
+        }
+    </script>
+</body>
+</html>
