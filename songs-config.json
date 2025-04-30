@@ -1,11 +1,11 @@
 {
   "songs": [
     {
-      "title": "אהבת הדסה",
+      "title": "שבת מנוחה",
       "recordings": [
         {
-          "name": "פתיחה - מקאם",
-          "url": "audio/ahavatHadasa_intro.mp3"
+          "name": "פתיחה",
+          "url": "audio/AUD-20250422-WA0024.m4a"
         },
         {
           "name": "בית ראשון",
