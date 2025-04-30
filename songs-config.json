@@ -1,0 +1,114 @@
+{
+  "songs": [
+    {
+      "title": "אהבת הדסה",
+      "recordings": [
+        {
+          "name": "פתיחה - מקאם",
+          "url": "audio/ahavatHadasa_intro.mp3"
+        },
+        {
+          "name": "בית ראשון",
+          "url": "audio/ahavatHadasa_verse1.mp3"
+        },
+        {
+          "name": "פזמון",
+          "url": "audio/ahavatHadasa_chorus.mp3"
+        }
+      ]
+    },
+    {
+      "title": "אנא אלך מרוחך",
+      "recordings": [
+        {
+          "name": "פתיחה",
+          "url": "audio/anaElech_intro.mp3"
+        },
+        {
+          "name": "בית ראשון",
+          "url": "audio/anaElech_verse1.mp3"
+        },
+        {
+          "name": "בית שני",
+          "url": "audio/anaElech_verse2.mp3"
+        }
+      ]
+    },
+    {
+      "title": "ה' מלך גאות לבש",
+      "recordings": [
+        {
+          "name": "פתיחה",
+          "url": "audio/hashem_intro.mp3"
+        },
+        {
+          "name": "חלק ראשון",
+          "url": "audio/hashem_part1.mp3"
+        },
+        {
+          "name": "חלק שני",
+          "url": "audio/hashem_part2.mp3"
+        },
+        {
+          "name": "סיום",
+          "url": "audio/hashem_ending.mp3"
+        }
+      ]
+    },
+    {
+      "title": "יום שבתון",
+      "recordings": [
+        {
+          "name": "פתיחה",
+          "url": "audio/yomShabaton_intro.mp3"
+        },
+        {
+          "name": "בית ראשון",
+          "url": "audio/yomShabaton_verse1.mp3"
+        },
+        {
+          "name": "בית שני",
+          "url": "audio/yomShabaton_verse2.mp3"
+        }
+      ]
+    },
+    {
+      "title": "אשת חיל",
+      "recordings": [
+        {
+          "name": "פתיחה",
+          "url": "audio/eshetChayil_intro.mp3"
+        },
+        {
+          "name": "חלק ראשון",
+          "url": "audio/eshetChayil_part1.mp3"
+        },
+        {
+          "name": "חלק שני",
+          "url": "audio/eshetChayil_part2.mp3"
+        }
+      ]
+    },
+    {
+      "title": "דרור יקרא",
+      "recordings": [
+        {
+          "name": "פתיחה",
+          "url": "audio/drorYikra_intro.mp3"
+        },
+        {
+          "name": "בית ראשון",
+          "url": "audio/drorYikra_verse1.mp3"
+        },
+        {
+          "name": "בית שני",
+          "url": "audio/drorYikra_verse2.mp3"
+        },
+        {
+          "name": "סיום",
+          "url": "audio/drorYikra_ending.mp3"
+        }
+      ]
+    }
+  ]
+}
