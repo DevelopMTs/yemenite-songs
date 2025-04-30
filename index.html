@@ -124,87 +124,6 @@
             color: #795548;
         }
         
-        /* Player Controls */
-        .player-controls {
-            display: none;
-            flex-direction: column;
-            background-color: #f5f5f5;
-            border-radius: 6px;
-            padding: 12px;
-            margin-top: 12px;
-            border: 1px solid #e0e0e0;
-        }
-        
-        .time-display {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: #795548;
-            margin-bottom: 5px;
-        }
-        
-        .progress-container {
-            display: flex;
-            align-items: center;
-            width: 100%;
-            margin-bottom: 10px;
-        }
-        
-        .seek-slider {
-            flex-grow: 1;
-            height: 5px;
-            -webkit-appearance: none;
-            background-color: #d7ccc8;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        
-        .seek-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #5d4037;
-            cursor: pointer;
-        }
-        
-        .seek-slider::-moz-range-thumb {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #5d4037;
-            cursor: pointer;
-            border: none;
-        }
-        
-        .seek-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .control-button {
-            background-color: #a1887f;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .control-button:hover {
-            background-color: #8d6e63;
-        }
-        
-        .control-button i {
-            margin: 0 5px;
-        }
-        
         /* Mobile Responsiveness */
         @media (max-width: 768px) {
             .songs-container {
@@ -213,10 +132,6 @@
             
             body {
                 padding: 15px;
-            }
-            
-            .seek-controls {
-                flex-wrap: wrap;
             }
         }
     </style>
@@ -336,8 +251,6 @@
         // האודיו שמתנגן כרגע
         let currentAudio = null;
         let currentButton = null;
-        let currentPlayerControls = null;
-        let seekInterval = null;
 
         // פונקציה ליצירת כרטיסי השירים
         function renderSongs(songs) {
@@ -378,84 +291,6 @@
                     recordingItem.appendChild(playButton);
                     recordingItem.appendChild(recordingName);
                     recordingsList.appendChild(recordingItem);
-                    
-                    // יצירת פקדי הנגן
-                    const playerControls = document.createElement('div');
-                    playerControls.className = 'player-controls';
-                    playerControls.id = 'player-' + song.title.replace(/\s+/g, '-') + '-' + recording.name.replace(/\s+/g, '-');
-                    
-                    // תצוגת זמן
-                    const timeDisplay = document.createElement('div');
-                    timeDisplay.className = 'time-display';
-                    
-                    const currentTime = document.createElement('span');
-                    currentTime.className = 'current-time';
-                    currentTime.textContent = '0:00';
-                    
-                    const duration = document.createElement('span');
-                    duration.className = 'duration';
-                    duration.textContent = '0:00';
-                    
-                    timeDisplay.appendChild(currentTime);
-                    timeDisplay.appendChild(duration);
-                    
-                    // סליידר התקדמות
-                    const progressContainer = document.createElement('div');
-                    progressContainer.className = 'progress-container';
-                    
-                    const seekSlider = document.createElement('input');
-                    seekSlider.type = 'range';
-                    seekSlider.className = 'seek-slider';
-                    seekSlider.min = 0;
-                    seekSlider.max = 100;
-                    seekSlider.value = 0;
-                    
-                    progressContainer.appendChild(seekSlider);
-                    
-                    // כפתורי שליטה
-                    const seekControls = document.createElement('div');
-                    seekControls.className = 'seek-controls';
-                    
-                    const backButton = document.createElement('button');
-                    backButton.className = 'control-button back-10';
-                    backButton.innerHTML = '<i class="fas fa-backward"></i> 10 שניות';
-                    backButton.title = 'חזור 10 שניות';
-                    
-                    const forwardButton = document.createElement('button');
-                    forwardButton.className = 'control-button forward-10';
-                    forwardButton.innerHTML = '10 שניות <i class="fas fa-forward"></i>';
-                    forwardButton.title = 'קדימה 10 שניות';
-                    
-                    seekControls.appendChild(backButton);
-                    seekControls.appendChild(forwardButton);
-                    
-                    // הוספת כל הפקדים לקונטיינר הנגן
-                    playerControls.appendChild(timeDisplay);
-                    playerControls.appendChild(progressContainer);
-                    playerControls.appendChild(seekControls);
-                    
-                    // הוספת אירועים לפקדי הנגן
-                    seekSlider.addEventListener('input', function() {
-                        if (currentAudio) {
-                            const seekTime = currentAudio.duration * (this.value / 100);
-                            currentAudio.currentTime = seekTime;
-                        }
-                    });
-                    
-                    backButton.addEventListener('click', function() {
-                        if (currentAudio) {
-                            currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
-                        }
-                    });
-                    
-                    forwardButton.addEventListener('click', function() {
-                        if (currentAudio) {
-                            currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
-                        }
-                    });
-                    
-                    // הוספת פקדי הנגן לאחר הפריט
-                    recordingItem.appendChild(playerControls);
                 });
 
                 // יצירת חלק הלולאה
@@ -481,13 +316,6 @@
             });
         }
 
-        // פונקציה לפורמט זמן (שניות למבנה 0:00)
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const remainingSeconds = Math.floor(seconds % 60);
-            return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
-        }
-
         // פונקציה לניהול נגינת האודיו
         function togglePlayback(button, url) {
             // אם יש אודיו שמתנגן, נעצור אותו
@@ -500,41 +328,21 @@
                     currentButton.classList.remove('playing');
                 }
                 
-                // הסתרת פקדי הנגן הקודמים
-                if (currentPlayerControls) {
-                    currentPlayerControls.style.display = 'none';
-                }
-                
-                // ניקוי אינטרוול עדכון הסליידר
-                if (seekInterval) {
-                    clearInterval(seekInterval);
-                    seekInterval = null;
-                }
-                
                 // אם לחצנו על אותו כפתור, נעצור את הניגון ונצא
                 if (currentButton === button) {
                     currentAudio = null;
                     currentButton = null;
-                    currentPlayerControls = null;
                     return;
                 }
             }
             
-            // מציאת אלמנט פקדי הנגן הקשור לכפתור זה
-            const recordingItem = button.closest('.recording-item');
-            const playerControls = recordingItem.querySelector('.player-controls');
-            
             // הפעלת האודיו החדש
             currentAudio = new Audio(url);
             currentButton = button;
-            currentPlayerControls = playerControls;
             
             // שינוי כפתור הניגון למצב מושהה
             button.innerHTML = '<i class="fas fa-pause"></i>';
             button.classList.add('playing');
-            
-            // הצגת פקדי הנגן
-            playerControls.style.display = 'flex';
             
             // בדיקה אם הלולאה פעילה
             const songCard = button.closest('.song-card');
@@ -544,24 +352,18 @@
                 currentAudio.loop = true;
             }
             
-            // הגדרת אירועים לאודיו
-            currentAudio.addEventListener('loadedmetadata', function() {
-                // עדכון משך הזמן המלא של השיר
-                const durationElem = playerControls.querySelector('.duration');
-                durationElem.textContent = formatTime(currentAudio.duration);
-                
-                // התחלת אינטרוול לעדכון הסליידר והזמן הנוכחי
-                seekInterval = setInterval(updateSeekBar, 1000);
-            });
-            
             // אירוע כאשר האודיו מסתיים
             currentAudio.addEventListener('ended', function() {
                 if (!currentAudio.loop) {
                     button.innerHTML = '<i class="fas fa-play"></i>';
                     button.classList.remove('playing');
-                    
-                    clearInterval(seekInterval);
-                    seekInterval = null;
-                    
                     currentAudio = null;
                     currentButton = null;
+                }
+            });
+            
+            currentAudio.play();
+        }
+    </script>
+</body>
+</html>
