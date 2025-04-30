@@ -332,7 +332,70 @@
             return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
         }
 
-        // פונקציה ליצירת כרטיסי השירים
+        // פונקציה לעדכון סרגל החיפוש ותצוגת הזמן
+        function updateSeekBar() {
+            if (!currentAudio || !currentSeekBarFill || !currentTimeDisplay) return;
+            
+            // עדכון תצוגת הזמן הנוכחי
+            currentTimeDisplay.textContent = formatTime(currentAudio.currentTime);
+            
+            // עדכון מילוי סרגל החיפוש
+            const percentage = (currentAudio.currentTime / currentAudio.duration) * 100;
+            currentSeekBarFill.style.width = percentage + '%';
+        }
+
+        // פונקציה להגדרת אירועי השליטה באודיו
+        function setupAudioControls() {
+            if (!currentItem || !currentAudio) return;
+            
+            // הגדרת אירועים לסרגל החיפוש
+            if (currentSeekBar) {
+                currentSeekBar.addEventListener('click', function(e) {
+                    if (!currentAudio || !currentAudio.duration) return;
+                    
+                    const rect = currentSeekBar.getBoundingClientRect();
+                    const pos = (e.clientX - rect.left) / rect.width;
+                    currentAudio.currentTime = pos * currentAudio.duration;
+                    updateSeekBar();
+                });
+            }
+            
+            // הגדרת אירועים לכפתורי הניווט
+            const rewindButton = currentItem.querySelector('.rewind-button');
+            const forwardButton = currentItem.querySelector('.forward-button');
+            
+            if (rewindButton) {
+                rewindButton.addEventListener('click', function(e) {
+                    e.stopPropagation(); // מניעת התפשטות האירוע
+                    if (!currentAudio) return;
+                    currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
+                    updateSeekBar();
+                });
+            }
+            
+            if (forwardButton) {
+                forwardButton.addEventListener('click', function(e) {
+                    e.stopPropagation(); // מניעת התפשטות האירוע
+                    if (!currentAudio) return;
+                    currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
+                    updateSeekBar();
+                });
+            }
+            
+            // אירועים לאודיו
+            currentAudio.addEventListener('loadedmetadata', function() {
+                if (totalTimeDisplay) {
+                    totalTimeDisplay.textContent = formatTime(currentAudio.duration);
+                }
+                
+                // התחלת טיימר לעדכון מצב הניגון
+                if (updateTimer) clearInterval(updateTimer);
+                updateTimer = setInterval(updateSeekBar, 100); // עדכון תכוף יותר לחוויה טובה יותר
+                
+                // עדכון ראשוני של הסליידר
+                updateSeekBar();
+            });
+        }
         function renderSongs(songs) {
             const container = document.getElementById('songs-container');
             container.innerHTML = '';
@@ -407,6 +470,7 @@
                     // כפתורי שליטה נוספים
                     const controlButtons = document.createElement('div');
                     controlButtons.className = 'control-buttons';
+                    controlButtons.style.display = 'none'; // מוסתר בהתחלה
                     
                     // כפתור חזרה 10 שניות אחורה
                     const rewindButton = document.createElement('button');
@@ -465,42 +529,30 @@
                     currentButton.classList.remove('playing');
                 }
                 
+                // הסתרת פקדי האודיו הקודמים
+                if (currentItem) {
+                    const audioControls = currentItem.querySelector('.audio-controls');
+                    const controlButtons = currentItem.querySelector('.control-buttons');
+                    if (audioControls) audioControls.style.display = 'none';
+                    if (controlButtons) controlButtons.style.display = 'none';
+                }
+                
+                // עצירת הטיימר לעדכון מצב הניגון
+                if (updateTimer) {
+                    clearInterval(updateTimer);
+                    updateTimer = null;
+                }
+                
                 // אם לחצנו על אותו כפתור, נעצור את הניגון ונצא
                 if (currentButton === button) {
                     currentAudio = null;
                     currentButton = null;
+                    currentItem = null;
+                    currentSeekBar = null;
+                    currentSeekBarFill = null;
+                    currentTimeDisplay = null;
+                    totalTimeDisplay = null;
                     return;
                 }
             }
-            
-            // הפעלת האודיו החדש
-            currentAudio = new Audio(url);
-            currentButton = button;
-            
-            // שינוי כפתור הניגון למצב מושהה
-            button.innerHTML = '<i class="fas fa-pause"></i>';
-            button.classList.add('playing');
-            
-            // בדיקה אם הלולאה פעילה
-            const songCard = button.closest('.song-card');
-            const loopCheckbox = songCard.querySelector('input[type="checkbox"]');
-            
-            if (loopCheckbox && loopCheckbox.checked) {
-                currentAudio.loop = true;
-            }
-            
-            // אירוע כאשר האודיו מסתיים
-            currentAudio.addEventListener('ended', function() {
-                if (!currentAudio.loop) {
-                    button.innerHTML = '<i class="fas fa-play"></i>';
-                    button.classList.remove('playing');
-                    currentAudio = null;
-                    currentButton = null;
-                }
-            });
-            
-            currentAudio.play();
-        }
-    </script>
-</body>
-</html>
+ 
