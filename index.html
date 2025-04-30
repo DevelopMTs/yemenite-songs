@@ -7,102 +7,175 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
+            background-color: #edf7fa;
+            color: #1a5276;
             max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 0 20px 0;
             line-height: 1.6;
         }
         
-        header {
+        /* ===== עיצוב חדש לכותרת ===== */
+        .site-header {
+            position: relative;
             text-align: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid #5d4037;
-            padding-bottom: 20px;
+            padding: 50px 20px 70px;
+            background: linear-gradient(135deg, #1a5276 0%, #48c9b0 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            border-bottom-left-radius: 30% 5%;
+            border-bottom-right-radius: 30% 5%;
+            margin-bottom: 30px;
         }
         
-        h1 {
-            font-size: 2.5rem;
-            color: #5d4037;
-            margin-bottom: 10px;
+        .header-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
         }
         
-        h2.subtitle {
-            font-size: 1.5rem;
-            color: #6d4c41;
+        .site-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.5px;
+        }
+        
+        .music-icon {
+            font-size: 2.8rem;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .subtitle {
+            font-size: 1.8rem;
+            font-weight: 400;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .description-box {
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px auto 0;
+            max-width: 700px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .description {
             font-size: 1.1rem;
-            color: #6d4c41;
-            max-width: 700px;
-            margin: 0 auto;
+            line-height: 1.7;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.9);
         }
         
+        .pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.6;
+            z-index: 1;
+        }
+        
+        .artist-highlight {
+            font-weight: 700;
+            color: #76d7c4;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* ===== עיצוב חדש לתיבת המידע ===== */
         .info-section {
             background-color: #fff;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 25px;
-            margin-bottom: 40px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 0 20px 40px;
+            box-shadow: 0 6px 15px rgba(26, 82, 118, 0.1);
         }
         
         .info-box {
-            background-color: #f1e8dc;
-            border-right: 5px solid #c19a6b;
-            padding: 15px;
+            background-color: #e8f8f5;
+            border-right: 5px solid #2874a6;
+            padding: 20px;
             margin: 15px 0;
-            border-radius: 5px;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+        
+        .info-box:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(26, 82, 118, 0.2);
         }
         
         .meetings {
-            background-color: #e8f4f8;
-            border-right: 5px solid #5bacbd;
+            background-color: #d6eaf8;
+            border-right: 5px solid #3498db;
         }
         
         .artist-name {
             font-weight: bold;
-            color: #5d4037;
+            color: #1a5276;
         }
         
+        /* ===== עיצוב חדש לכפתור וואטסאפ ===== */
         .whatsapp-btn {
             display: inline-block;
             background-color: #25D366;
             color: white;
             text-decoration: none;
-            padding: 12px 25px;
-            border-radius: 30px;
+            padding: 12px 28px;
+            border-radius: 50px;
             font-weight: bold;
             margin: 20px 0;
             transition: all 0.3s ease;
-            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             text-align: center;
         }
         
         .whatsapp-btn:hover {
             background-color: #128C7E;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
         }
         
         .whatsapp-btn i {
             margin-left: 10px;
+            font-size: 1.2em;
+            vertical-align: middle;
         }
         
+        /* ===== עיצוב חדש לכרטיסי השירים ===== */
         .songs-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 30px;
+            padding: 0 20px;
         }
         
         .song-card {
             background-color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease;
+            box-shadow: 0 5px 15px rgba(26, 82, 118, 0.1);
+            transition: all 0.3s ease;
+            border-top: 4px solid #48c9b0;
         }
         
         .song-card.collapsed .song-content {
@@ -111,14 +184,15 @@
         
         .song-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(26, 82, 118, 0.15);
         }
         
         .song-title {
-            font-size: 1.3rem;
-            color: #4e342e;
+            font-size: 1.5rem;
+            color: #1a5276;
             margin-top: 0;
             padding-bottom: 10px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #d6eaf8;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -131,31 +205,33 @@
         }
         
         .share-button {
-            background-color: #8d6e63;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             margin-left: 10px;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
         }
         
         .share-button:hover {
-            background-color: #6d4c41;
+            background-color: #2874a6;
+            transform: scale(1.1);
         }
         
         .toggle-collapse {
             background: none;
             border: none;
             font-size: 1.2rem;
-            color: #8d6e63;
+            color: #3498db;
             cursor: pointer;
             transition: transform 0.3s;
+            padding: 5px;
         }
         
         .song-card.collapsed .toggle-collapse {
@@ -165,37 +241,45 @@
         .recordings-list {
             list-style: none;
             padding: 0;
-            margin: 0;
+            margin: 15px 0 0;
         }
         
         .recording-item {
             display: flex;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px dashed #eee;
+            padding: 12px 0;
+            border-bottom: 1px dashed #d6eaf8;
+            transition: background-color 0.2s;
+        }
+        
+        .recording-item:hover {
+            background-color: #edf7fa;
+            border-radius: 8px;
         }
         
         .play-button {
-            background-color: #8d6e63;
+            background-color: #3498db;
             color: white;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin-left: 15px;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(26, 82, 118, 0.2);
         }
         
         .play-button:hover {
-            background-color: #6d4c41;
+            background-color: #2874a6;
+            transform: scale(1.05);
         }
         
         .play-button.playing {
-            background-color: #4e342e;
+            background-color: #48c9b0;
         }
         
         .play-button i {
@@ -204,12 +288,17 @@
         
         .recording-name {
             flex-grow: 1;
+            padding: 0 10px;
+            font-size: 1.1rem;
+            color: #2c3e50;
         }
         
         .audio-player {
-            width: 100%;
-            margin-top: 5px;
+            margin-top: 10px;
             display: none;
+            background-color: #e8f8f5;
+            padding: 15px;
+            border-radius: 10px;
             margin-bottom: 15px;
         }
         
@@ -219,7 +308,9 @@
         
         .html-audio-player {
             width: 100%;
+            height: 40px;
             border-radius: 30px;
+            accent-color: #3498db;
         }
         
         @media (max-width: 768px) {
@@ -231,39 +322,36 @@
         
         .progress-bar {
             height: 100%;
-            background-color: #8d6e63;
+            background-color: #3498db;
             border-radius: 5px;
             width: 0;
         }
         
         .player-time {
-            font-size: 0.8rem;
-            color: #757575;
+            font-size: 0.9rem;
+            color: #34495e;
             display: flex;
             justify-content: space-between;
-            margin-top: 5px;
+            margin-top: 8px;
         }
         
+        /* ===== עיצוב מעודכן לפוטר ===== */
         footer {
             text-align: center;
-            margin-top: 50px;
-            font-size: 0.9rem;
-            color: #795548;
-            padding: 20px;
-            border-top: 1px solid #e0e0e0;
+            margin-top: 60px;
+            padding: 25px;
+            color: #1a5276;
+            border-top: 1px solid #d6eaf8;
+            background-color: #e8f8f5;
+            border-radius: 12px 12px 0 0;
         }
         
-        /* Mobile Responsiveness */
-        @media (max-width: 768px) {
-            .songs-container {
-                grid-template-columns: 1fr;
-            }
-            
-            body {
-                padding: 15px;
-            }
+        footer p {
+            margin: 0;
+            font-size: 0.95rem;
         }
         
+        /* ===== טולטיפ לשיתוף ===== */
         .share-tooltip {
             position: relative;
             display: inline-block;
@@ -272,11 +360,11 @@
         .tooltip-text {
             visibility: hidden;
             width: 140px;
-            background-color: #555;
+            background-color: #1a5276;
             color: #fff;
             text-align: center;
             border-radius: 6px;
-            padding: 5px;
+            padding: 8px;
             position: absolute;
             z-index: 1;
             bottom: 150%;
@@ -284,6 +372,7 @@
             margin-left: -70px;
             opacity: 0;
             transition: opacity 0.3s;
+            font-size: 0.9rem;
         }
 
         .tooltip-text::after {
@@ -294,30 +383,73 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: #555 transparent transparent transparent;
+            border-color: #1a5276 transparent transparent transparent;
         }
 
         .share-tooltip:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
         }
+        
+        /* ===== Mobile Responsiveness ===== */
+        @media (max-width: 768px) {
+            .site-title {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.4rem;
+            }
+            
+            .description-box {
+                padding: 20px 15px;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+            
+            .songs-container {
+                grid-template-columns: 1fr;
+                padding: 0 15px;
+            }
+            
+            .info-section {
+                margin: 0 15px 30px;
+                padding: 20px;
+            }
+            
+            .site-header {
+                padding: 40px 15px 60px;
+            }
+        }
     </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <header>
-        <h1>לימוד שירת תימן 🎶</h1>
-        <h2 class="subtitle">עם הזמר אור שבח</h2>
-        <p class="description">
-            אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
-            כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
-        </p>
+    <!-- כותרת חדשה -->
+    <header class="site-header">
+        <div class="pattern-overlay"></div>
+        <div class="header-content">
+            <h1 class="site-title">
+                <span class="music-icon"><i class="fas fa-music"></i></span>
+                לימוד שירת תימן
+            </h1>
+            <h2 class="subtitle">עם הזמר <span class="artist-highlight">אור שבח</span></h2>
+            
+            <div class="description-box">
+                <p class="description">
+                    אוסף הקלטות ייחודי של שירת תימן המסורתית לשימור ולימוד המסורת המוזיקלית העשירה והמיוחדת.
+                    כל הקטעים הם חלקים משירים שלמים, מאורגנים לפי שירים ונושאים לנוחות הלימוד.
+                </p>
+            </div>
+        </div>
     </header>
 
     <div class="info-section">        
         <div class="info-box meetings">
-            <p>מפגשי לימוד שירי תימן מתקיימים כל יום שלישי עם הזמר <span class="artist-name">אור שבח</span> בבית הכנסת תפארת בחורים בעיר רחובות.</p>
+            <p>מפגשי לימוד שירי תימן מתקיימים כל יום שלישי עם הזמר <span class="artist-name">אור שבח</span> בבית הכנסת "תפארת בחורים" בעיר רחובות.</p>
        
             <div style="text-align: center;">
                 <a href="https://chat.whatsapp.com/FrvLIa6kmM29BxoUx7aO4o" class="whatsapp-btn">
@@ -330,12 +462,115 @@
     <main>
         <div class="songs-container" id="songs-container">
             <!-- הקטגוריות והשירים יוטענו כאן באמצעות JavaScript -->
+            
+            <!-- שיר לדוגמה (ייעלם כשהנתונים האמיתיים ייטענו) -->
+            <div class="song-card" id="ahavat_hadasa">
+                <div class="song-title">
+                    <span>אהבת הדסה</span>
+                    <div class="icons">
+                        <div class="share-tooltip">
+                            <button class="share-button" title="שתף שיר">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <span class="tooltip-text">העתק קישור</span>
+                        </div>
+                        <button class="toggle-collapse" title="פתח/סגור">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="song-content">
+                    <ul class="recordings-list">
+                        <li class="recording-item">
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="recording-name">פתיחה - מקאם</span>
+                        </li>
+                        <div class="audio-player">
+                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                <source src="audio/ahavatHadasa_intro.mp3" type="audio/mpeg">
+                                הדפדפן שלך לא תומך בתגית אודיו.
+                            </audio>
+                        </div>
+                        
+                        <li class="recording-item">
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="recording-name">בית ראשון</span>
+                        </li>
+                        <div class="audio-player">
+                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                <source src="audio/ahavatHadasa_verse1.mp3" type="audio/mpeg">
+                                הדפדפן שלך לא תומך בתגית אודיו.
+                            </audio>
+                        </div>
+                        
+                        <li class="recording-item">
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="recording-name">פזמון</span>
+                        </li>
+                        <div class="audio-player">
+                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                <source src="audio/ahavatHadasa_chorus.mp3" type="audio/mpeg">
+                                הדפדפן שלך לא תומך בתגית אודיו.
+                            </audio>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- שיר לדוגמה נוסף -->
+            <div class="song-card" id="ana_elech">
+                <div class="song-title">
+                    <span>אנא אלך מרוחך</span>
+                    <div class="icons">
+                        <div class="share-tooltip">
+                            <button class="share-button" title="שתף שיר">
+                                <i class="fas fa-share-alt"></i>
+                            </button>
+                            <span class="tooltip-text">העתק קישור</span>
+                        </div>
+                        <button class="toggle-collapse" title="פתח/סגור">
+                            <i class="fas fa-chevron-up"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="song-content">
+                    <ul class="recordings-list">
+                        <li class="recording-item">
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="recording-name">פתיחה</span>
+                        </li>
+                        <div class="audio-player">
+                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                <source src="audio/anaElech_intro.mp3" type="audio/mpeg">
+                                הדפדפן שלך לא תומך בתגית אודיו.
+                            </audio>
+                        </div>
+                        
+                        <li class="recording-item">
+                            <button class="play-button">
+                                <i class="fas fa-play"></i>
+                            </button>
+                            <span class="recording-name">בית ראשון</span>
+                        </li>
+                        <div class="audio-player">
+                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                <source src="audio/anaElech_verse1.mp3" type="audio/mpeg">
+                                הדפדפן שלך לא תומך בתגית אודיו.
+                            </audio>
+                        </div>
+                    </ul>
+                </div>
+            </div>
         </div>
     </main>
-
-    <footer>
-        <p>© כל הזכויות שמורות | לימוד שירת תימן | צוריה מור</p>
-    </footer>
 
     <script>
         // טעינת קובץ הקונפיגורציה
