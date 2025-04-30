@@ -396,6 +396,8 @@
                 updateSeekBar();
             });
         }
+
+        // פונקציה ליצירת כרטיסי השירים
         function renderSongs(songs) {
             const container = document.getElementById('songs-container');
             container.innerHTML = '';
@@ -531,10 +533,10 @@
                 
                 // הסתרת פקדי האודיו הקודמים
                 if (currentItem) {
-                    const audioControls = currentItem.querySelector('.audio-controls');
-                    const controlButtons = currentItem.querySelector('.control-buttons');
-                    if (audioControls) audioControls.style.display = 'none';
-                    if (controlButtons) controlButtons.style.display = 'none';
+                    const prevAudioControls = currentItem.querySelector('.audio-controls');
+                    const prevControlButtons = currentItem.querySelector('.control-buttons');
+                    if (prevAudioControls) prevAudioControls.style.display = 'none';
+                    if (prevControlButtons) prevControlButtons.style.display = 'none';
                 }
                 
                 // עצירת הטיימר לעדכון מצב הניגון
@@ -551,8 +553,4 @@
                     currentSeekBar = null;
                     currentSeekBarFill = null;
                     currentTimeDisplay = null;
-                    totalTimeDisplay = null;
-                    return;
-                }
-            }
- 
+                    totalTimeDisplay = nu
