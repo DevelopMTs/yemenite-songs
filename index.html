@@ -423,6 +423,57 @@
                 padding: 40px 15px 60px;
             }
         }
+
+        /* ===== עיצוב חדש לקבוצות שירים ===== */
+        .group {
+            margin-bottom: 40px;
+            border: 1px solid #d6eaf8;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .group.collapsed {
+            border-color: #a9cce3;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .group-title {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 20px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .group-title:hover {
+            background-color: #2874a6;
+        }
+        
+        .group-title i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .group.collapsed .group-title i {
+            transform: rotate(180deg);
+        }
+        
+        .group-songs {
+            padding: 20px;
+            background-color: #f8f9f9;
+            display: none;
+        }
+        
+        .group:not(.collapsed) .group-songs {
+            display: block;
+        }
     </style>
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -461,112 +512,27 @@
 
     <main>
         <div class="songs-container" id="songs-container">
-            <!-- הקטגוריות והשירים יוטענו כאן באמצעות JavaScript -->
-            
-            <!-- שיר לדוגמה (ייעלם כשהנתונים האמיתיים ייטענו) -->
-            <div class="song-card" id="ahavat_hadasa">
-                <div class="song-title">
-                    <span>אהבת הדסה</span>
-                    <div class="icons">
-                        <div class="share-tooltip">
-                            <button class="share-button" title="שתף שיר">
-                                <i class="fas fa-share-alt"></i>
-                            </button>
-                            <span class="tooltip-text">העתק קישור</span>
-                        </div>
-                        <button class="toggle-collapse" title="פתח/סגור">
-                            <i class="fas fa-chevron-up"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="song-content">
-                    <ul class="recordings-list">
-                        <li class="recording-item">
-                            <button class="play-button">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <span class="recording-name">פתיחה - מקאם</span>
-                        </li>
-                        <div class="audio-player">
-                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
-                                <source src="audio/ahavatHadasa_intro.mp3" type="audio/mpeg">
-                                הדפדפן שלך לא תומך בתגית אודיו.
-                            </audio>
-                        </div>
-                        
-                        <li class="recording-item">
-                            <button class="play-button">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <span class="recording-name">בית ראשון</span>
-                        </li>
-                        <div class="audio-player">
-                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
-                                <source src="audio/ahavatHadasa_verse1.mp3" type="audio/mpeg">
-                                הדפדפן שלך לא תומך בתגית אודיו.
-                            </audio>
-                        </div>
-                        
-                        <li class="recording-item">
-                            <button class="play-button">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <span class="recording-name">פזמון</span>
-                        </li>
-                        <div class="audio-player">
-                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
-                                <source src="audio/ahavatHadasa_chorus.mp3" type="audio/mpeg">
-                                הדפדפן שלך לא תומך בתגית אודיו.
-                            </audio>
-                        </div>
-                    </ul>
+            <!-- שירי שבת -->
+            <div class="group">
+                <h2>שירי שבת</h2>
+                <div class="group-songs">
+                    <!-- Render songs dynamically -->
                 </div>
             </div>
-            
-            <!-- שיר לדוגמה נוסף -->
-            <div class="song-card" id="ana_elech">
-                <div class="song-title">
-                    <span>אנא אלך מרוחך</span>
-                    <div class="icons">
-                        <div class="share-tooltip">
-                            <button class="share-button" title="שתף שיר">
-                                <i class="fas fa-share-alt"></i>
-                            </button>
-                            <span class="tooltip-text">העתק קישור</span>
-                        </div>
-                        <button class="toggle-collapse" title="פתח/סגור">
-                            <i class="fas fa-chevron-up"></i>
-                        </button>
-                    </div>
+
+            <!-- שירי מועדים -->
+            <div class="group">
+                <h2>שירי מועדים</h2>
+                <div class="group-songs">
+                    <!-- Render songs dynamically -->
                 </div>
-                <div class="song-content">
-                    <ul class="recordings-list">
-                        <li class="recording-item">
-                            <button class="play-button">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <span class="recording-name">פתיחה</span>
-                        </li>
-                        <div class="audio-player">
-                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
-                                <source src="audio/anaElech_intro.mp3" type="audio/mpeg">
-                                הדפדפן שלך לא תומך בתגית אודיו.
-                            </audio>
-                        </div>
-                        
-                        <li class="recording-item">
-                            <button class="play-button">
-                                <i class="fas fa-play"></i>
-                            </button>
-                            <span class="recording-name">בית ראשון</span>
-                        </li>
-                        <div class="audio-player">
-                            <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
-                                <source src="audio/anaElech_verse1.mp3" type="audio/mpeg">
-                                הדפדפן שלך לא תומך בתגית אודיו.
-                            </audio>
-                        </div>
-                    </ul>
+            </div>
+
+            <!-- שירים כלליים -->
+            <div class="group">
+                <h2>שירים כלליים</h2>
+                <div class="group-songs">
+                    <!-- Render songs dynamically -->
                 </div>
             </div>
         </div>
@@ -577,13 +543,107 @@
         fetch('songs-config.json')
             .then(response => response.json())
             .then(data => {
-                renderSongs(data.songs);
+                const container = document.getElementById('songs-container');
+                container.innerHTML = '';
+
+                data.groups.forEach(group => {
+                    const groupDiv = document.createElement('div');
+                    groupDiv.className = 'group collapsible';
+
+                    const groupTitle = document.createElement('h2');
+                    groupTitle.textContent = group.name;
+                    groupTitle.className = 'group-title';
+
+                    const toggleIcon = document.createElement('i');
+                    toggleIcon.className = 'fas fa-chevron-down';
+                    groupTitle.appendChild(toggleIcon);
+
+                    groupTitle.addEventListener('click', () => {
+                        groupDiv.classList.toggle('collapsed');
+                    });
+                    groupDiv.appendChild(groupTitle);
+
+                    const groupSongsDiv = document.createElement('div');
+                    groupSongsDiv.className = 'group-songs';
+
+                    group.songs.forEach(song => {
+                        const songCard = document.createElement('div');
+                        songCard.className = 'song-card';
+
+                        const songTitleContainer = document.createElement('div');
+                        songTitleContainer.className = 'song-title';
+                        songTitleContainer.innerHTML = `
+                            <span>${song.title}</span>
+                            <div class="icons">
+                                <div class="share-tooltip">
+                                    <button class="share-button" title="שתף שיר" onclick="shareSong('${createSafeId(song.title)}', event)">
+                                        <i class="fas fa-share-alt"></i>
+                                    </button>
+                                    <span class="tooltip-text">העתק קישור</span>
+                                </div>
+                                <button class="toggle-collapse" title="פתח/סגור">
+                                    <i class="fas fa-chevron-up"></i>
+                                </button>
+                            </div>
+                        `;
+
+                        songTitleContainer.addEventListener('click', function(e) {
+                            if (!e.target.closest('.share-button')) {
+                                toggleCollapse(songCard);
+                            }
+                        });
+
+                        const songContent = document.createElement('div');
+                        songContent.className = 'song-content';
+
+                        const recordingsList = document.createElement('ul');
+                        recordingsList.className = 'recordings-list';
+
+                        song.recordings.forEach(recording => {
+                            const recordingItem = document.createElement('li');
+                            recordingItem.className = 'recording-item';
+
+                            const playButton = document.createElement('button');
+                            playButton.className = 'play-button';
+                            playButton.innerHTML = '<i class="fas fa-play"></i>';
+                            playButton.setAttribute('data-url', recording.url);
+                            playButton.setAttribute('data-name', recording.name);
+                            playButton.setAttribute('title', 'נגן ' + recording.name);
+
+                            const recordingName = document.createElement('span');
+                            recordingName.className = 'recording-name';
+                            recordingName.textContent = recording.name;
+
+                            const audioPlayer = document.createElement('div');
+                            audioPlayer.className = 'audio-player';
+                            audioPlayer.innerHTML = `
+                                <audio controls loop controlsList="nodownload" preload="metadata" class="html-audio-player">
+                                    <source src="${recording.url}" type="audio/mpeg">
+                                    הדפדפן שלך לא תומך בתגית אודיו.
+                                </audio>
+                            `;
+
+                            playButton.addEventListener('click', function() {
+                                togglePlayback(this, audioPlayer);
+                            });
+
+                            recordingItem.appendChild(playButton);
+                            recordingItem.appendChild(recordingName);
+                            recordingsList.appendChild(recordingItem);
+                            recordingsList.appendChild(audioPlayer);
+                        });
+
+                        songContent.appendChild(recordingsList);
+                        songCard.appendChild(songTitleContainer);
+                        songCard.appendChild(songContent);
+                        groupSongsDiv.appendChild(songCard);
+                    });
+
+                    groupDiv.appendChild(groupSongsDiv);
+                    container.appendChild(groupDiv);
+                });
             })
-            .catch(error => {
-                console.error('שגיאה בטעינת הקונפיגורציה:', error);
-                // במקרה של שגיאה, נציג נתוני דוגמה
-                renderSongs(sampleData.songs);
-            });
+            .catch(error => console.error('שגיאה בטעינת הקונפיגורציה:', error));
 
         // נתוני דוגמה למקרה שקובץ הקונפיגורציה אינו זמין
         const sampleData = {
