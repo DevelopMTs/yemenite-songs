@@ -165,8 +165,8 @@
         .songs-container {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 30px;
-            padding: 0 20px;
+            gap: 20px;
+            padding: 0;
         }
         
         .song-card {
@@ -176,6 +176,7 @@
             box-shadow: 0 5px 15px rgba(26, 82, 118, 0.1);
             transition: all 0.3s ease;
             border-top: 4px solid #48c9b0;
+            margin-bottom: 15px;
         }
         
         .song-card.collapsed .song-content {
@@ -411,7 +412,7 @@
             
             .songs-container {
                 grid-template-columns: 1fr;
-                padding: 0 15px;
+                padding: 0;
             }
             
             .info-section {
@@ -426,7 +427,7 @@
 
         /* ===== עיצוב חדש לקבוצות שירים ===== */
         .group {
-            margin-bottom: 40px;
+            margin-bottom: 10px;
             border: 1px solid #d6eaf8;
             border-radius: 8px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -440,8 +441,9 @@
         }
         
         .group-title {
-            background-color: #3498db;
+            background-color: #48c9b0;
             color: white;
+            margin: 0;
             padding: 15px 20px;
             font-size: 1.8rem;
             font-weight: bold;
@@ -453,7 +455,7 @@
         }
         
         .group-title:hover {
-            background-color: #2874a6;
+            background-color: #3cb0a6;
         }
         
         .group-title i {
